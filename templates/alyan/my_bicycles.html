@@ -1,0 +1,33 @@
+{% extends 'alyan/base.html' %}
+
+{% block content %}
+
+
+        <div class="col-md-4">
+            <div class="box">
+                {% include 'alyan/sidebar_links.html' %}
+            </div>
+        </div>
+        <div class="col-md-8 ">
+            <div class="box">
+                <h4>My Bicycles</h4>
+                <ul>
+                    {% for bicycle in bicycles %}
+                        <li>
+                            <h5><a href="/edit_bicycle/{{ bicycle.id }}">{{ bicycle.year}} {{ bicycle.brand}} {{ bicycle.model }}</a></h5>
+                            <ul>
+                                {% for photo in bicycle.bicyclephoto_set.all %}
+                                   <li>
+                                       <img class="medium_photo" src="{{ photo.image.url }}" alt="{{ bicycle.year}} {{ bicycle.brand}} {{ bicycle.model }}" />
+                                   </li>
+                                {% endfor %}
+                            </ul>
+                        </li>
+                    {% endfor %}
+                </ul>
+
+            </div>
+
+        </div>
+
+{% endblock %}

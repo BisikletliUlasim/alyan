@@ -1,0 +1,37 @@
+{% extends 'alyan/base.html' %}
+
+{% block content %}
+
+
+        <div class="col-md-4">
+            <div class="box">
+                {% if user.is_authenticated %}
+                    {% include 'alyan/sidebar_links.html' %}
+                {% else %}
+                <h4>Kayit</h4>
+                  <form action="/register/" method="post" class="">
+                      {% csrf_token %}
+                      {{ registration_form.as_p }}
+                      <input type="submit" value="Create the account">
+                  </form>
+                {% endif %}
+            </div>
+        </div>
+        <div class="col-md-8 ">
+            <div class="box">
+                <h4>Son Eklenenler</h4>
+                <ul>
+                    {% for bicycle in latest_bicycles  %}
+                        <li class="container">
+                            <div class="col-md-3">
+                                <img width="200px" height="100px" src="{{ bicycle.bicyclephoto_set.all.0.image.url }}"/>
+                            </div>
+                            <div class="col-md-2">{{ bicycle }}</div>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+
+        </div>
+
+{% endblock %}

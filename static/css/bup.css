@@ -1,0 +1,17 @@
+body{
+    background: #ddd;
+}
+
+.box{
+    border: 5px solid #2196f3;
+    background: #ffffff;
+
+    margin-right: 10px;
+    padding: 10px;
+}
+
+.medium_photo{
+    width:400px;
+    height:250px;
+}
+

@@ -1,0 +1,24 @@
+{% extends 'alyan/base.html' %}
+
+{% block content %}
+
+
+        <div class="col-md-4">
+            <div class="box">
+                {% include 'alyan/sidebar_links.html' %}
+            </div>
+        </div>
+        <div class="col-md-8 ">
+            <div class="box">
+                <h4>Profilim</h4>
+                    <form action="/edit_profile/" method="post" class="">
+                      {% csrf_token %}
+                      {{ form.as_p }}
+                      <input type="submit" value="Edit Profile">
+                  </form>
+
+            </div>
+
+        </div>
+
+{% endblock %}
