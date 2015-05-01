@@ -11,12 +11,11 @@
         <div class="col-md-8 ">
             <div class="box">
                 <h4>Bisikletim</h4>
-                    <form action="/edit_bicycle/{{ bicycle.id }}/" method="post" class="">
+                    <form action="/edit_photos/{{ bicycle.id }}/" method="post" class="">
                         {% csrf_token %}
-                        {{ bicycle_form.as_p }}
-                        <input type="submit" value="Edit Bicycle"/>
+                        {{ photos_form.as_p }}
+                        <input type="submit" value="Submit"/>
                     </form>
-                    <a href="/edit_photos/{{ bicycle.id }}/">Edit Photos</a>
 
 
             </div>

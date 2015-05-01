@@ -20,6 +20,7 @@ class RegistrationForm(UserCreationForm):
             user.save()
         return user
 
+
 class ProfileForm(RegistrationForm):
     fullname = CharField(label=_("Email address"), required=True, help_text=_("Required."))
 
@@ -42,10 +43,15 @@ class BicycleForm(forms.ModelForm):
         model = Bicycle
         fields = ["brand", "model", "year", "color", "note", "city", "serial_number", "new_image"]
 
+    def __init__(self, *args, **kwargs):
+        self.owner = kwargs.pop('owner')
+        super(BicycleForm, self).__init__(*args, **kwargs)
+
     def save(self, commit=True):
+        bicycle = self.instance
+        bicycle.owner = self.owner
         if self.cleaned_data['new_image']:
-            BicyclePhoto(bicycle=super(BicycleForm, self), photo=self.cleaned_data['new_image'])
+            photo = BicyclePhoto(bicycle=bicycle, photo=self.cleaned_data['new_image'])
+            photo.save()
 
-
-        return super(BicycleForm, self).save(commit=commit)
-
+        return bicycle.save()

@@ -7,5 +7,7 @@ urlpatterns = [
     url(r'^register/', views.register, name='register'),
     url(r'^edit_profile/', views.edit_profile, name='edit_profile'),
     url(r'^edit_bicycle/(?P<bicycle_id>[0-9])/', views.edit_bicycle, name='edit_bicycle'),
+    url(r'^edit_photos/(?P<bicycle_id>[0-9])/', views.edit_photos, name='edit_photos'),
+    url(r'^view_bicycle/(?P<bicycle_id>[0-9])/', views.view_bicycle, name='view_bicycle'),
     url(r'^my_bicycles/', views.my_bicycles, name='my_bicycles'),
 ]

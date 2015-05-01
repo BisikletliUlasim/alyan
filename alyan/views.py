@@ -1,10 +1,11 @@
 from alyan.forms import RegistrationForm, ProfileForm, BicycleForm
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
+from django.forms import inlineformset_factory, modelform_factory
 from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render
 
-from .models import Bicycle
+from .models import Bicycle, BicyclePhoto
 
 
 def index(request):
@@ -44,15 +45,46 @@ def my_bicycles(request):
 
 @login_required
 def edit_bicycle(request, bicycle_id):
+    bicycle = Bicycle.objects.get(id=bicycle_id, owner=request.user)
+    if not Bicycle:
+        return HttpResponse(403)
+
+    bicycle_form = modelform_factory(Bicycle, exclude=['owner'])
+
     if request.method == 'GET':
-        bicycle = Bicycle.objects.get(id=bicycle_id, owner=request.user)
-        if bicycle:
-            form = BicycleForm(instance=bicycle)
-        else:
-            return HttpResponse(403)
+        bicycle_form = bicycle_form()
+
     elif request.method == 'POST':
-        form = BicycleForm(request.POST)
-        if form.is_valid():
-            bicycle = form.save()
+        bicycle_form = bicycle_form()
+
+        if bicycle_form.is_valid():
+            bicycle_form.save()
 
     return render(request, 'alyan/edit_bicycle.html', context=locals())
+
+
+@login_required()
+def edit_photos(request, bicycle_id):
+    bicycle = Bicycle.objects.get(id=bicycle_id, owner=request.user)
+    if not Bicycle:
+        return HttpResponse(403)
+
+    photos_form = inlineformset_factory(Bicycle, BicyclePhoto, exclude=[])
+
+    if request.method == 'GET':
+        photos_form = photos_form(instance=bicycle)
+        return render(request, 'alyan/edit_photos.html', context=locals())
+
+    elif request.method == 'POST':
+        photos_form = photos_form(request.POST, request.FILES, instance=bicycle)
+        if photos_form.is_valid():
+            photos_form.save()
+
+        return HttpResponseRedirect(bicycle.get_absolute_url())
+
+def view_bicycle(request, bicycle_id):
+    bicycle = Bicycle.objects.get(id=bicycle_id)
+    if not Bicycle:
+        return HttpResponse(404)
+
+    return render(request, 'alyan/view_bicycle.html', context=locals())
