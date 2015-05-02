@@ -11,7 +11,6 @@
         <div class="col-md-8 ">
             <div class="box">
                 <h4>{{ bicycle.year }} {{ bicycle.brand }} {{ bicycle.model }}</h4>
-                <div class="col-md-5">
                     <ul>
                         {% for photo in bicycle.bicyclephoto_set.all %}
                            <li>
@@ -19,11 +18,7 @@
                            </li>
                         {% endfor %}
                     </ul>
-                </div>
-                <div class="col-md-2">
                     {{ bicycle.owner }}
-                </div>
-
             </div>
 
         </div>
